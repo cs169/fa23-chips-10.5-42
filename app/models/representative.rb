@@ -22,7 +22,7 @@ class Representative < ApplicationRecord
 
       address = ''
       unless official.address.nil?
-      
+        
         addy = official.address[0]
         address = [addy.line1, addy.city, addy.state, addy.zip].join(' ')
         Rails.logger.debug(address)
