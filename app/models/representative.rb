@@ -17,17 +17,11 @@ class Representative < ApplicationRecord
         end
       end
 
-      address = ''
-      if not official.address.nil?
-        addy = official.address[0]
-        address = [addy.line1, addy.city, addy.state, addy.zip].join(" ")
-        Rails.logger.debug(address)
-      end 
-      
       rep = Representative.create!({ name: official.name, ocdid: ocdid_temp,
-          title: title_temp, address: address, party: official.party})
+          title: title_temp })
       reps.push(rep)
     end
+
     reps
   end
 end
