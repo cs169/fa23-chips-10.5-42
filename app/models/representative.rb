@@ -21,9 +21,10 @@ class Representative < ApplicationRecord
       end
 
       address = ''
-      if not official.address.nil?
+      unless official.address.nil?
+      
         addy = official.address[0]
-        address = [addy.line1, addy.city, addy.state, addy.zip].join(" ")
+        address = [addy.line1, addy.city, addy.state, addy.zip].join(' ')
         Rails.logger.debug(address)
       end 
       

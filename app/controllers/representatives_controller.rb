@@ -10,7 +10,7 @@ class RepresentativesController < ApplicationController
     @name = @representative.name
     @ocdid = @representative.ocdid
     @title = @representative.title
-    @address = @representative.address 
+    @address = @representative.address
     @party = @representative.party
     render 'representatives/show'
   end
