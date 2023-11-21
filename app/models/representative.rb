@@ -2,6 +2,9 @@
 
 class Representative < ApplicationRecord
   has_many :news_items, dependent: :delete_all
+  validates :name, presence: true
+  validates :ocdid, presence: true
+  validates :title, presence: true
 
   def self.civic_api_to_representative_params(rep_info)
     reps = []
