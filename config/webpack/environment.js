@@ -21,5 +21,4 @@ const sassLoaderConfig = sassLoader.use.find((element) => element.loader === 'sa
 const { options } = sassLoaderConfig;
 options.implementation = require('sass');
 
-
 module.exports = environment;

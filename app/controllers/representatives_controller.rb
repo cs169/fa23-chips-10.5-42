@@ -12,6 +12,9 @@ class RepresentativesController < ApplicationController
     @title = @representative.title
     @address = @representative.address
     @party = @representative.party
+    @photo = @representative.photo
+    Rails.logger.debug(@photo)
+    Rails.logger.debug("^^^^^")
     render 'representatives/show'
   end
 end

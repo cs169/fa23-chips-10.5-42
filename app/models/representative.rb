@@ -22,14 +22,12 @@ class Representative < ApplicationRecord
 
       address = ''
       unless official.address.nil?
-        
         addy = official.address[0]
         address = [addy.line1, addy.city, addy.state, addy.zip].join(' ')
-        Rails.logger.debug(address)
       end 
-      
-      rep = Representative.create!({ name: official.name, ocdid: ocdid_temp,
-          title: title_temp, address: address, party: official.party})
+
+      rep = Representative.find_or_initialize_by(ocdid: ocdid_temp)
+      rep.update(name: official.name, title: title_temp, title: title_temp, address: address, party: official.party, photo: official.photo_url)
       reps.push(rep)
     end
     reps
