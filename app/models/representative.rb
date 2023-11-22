@@ -26,8 +26,8 @@ class Representative < ApplicationRecord
         address = [addy.line1, addy.city, addy.state, addy.zip].join(' ')
       end 
 
-      rep = Representative.find_or_initialize_by(ocdid: ocdid_temp)
-      rep.update(name: official.name, title: title_temp, title: title_temp, address: address, party: official.party, photo: official.photo_url)
+      rep = Representative.find_or_initialize_by(name: official.name)
+      rep.update({name: official.name, title: title_temp, address: address, party: official.party, photo: official.photo_url})
       reps.push(rep)
     end
     reps
