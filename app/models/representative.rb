@@ -24,10 +24,14 @@ class Representative < ApplicationRecord
       unless official.address.nil?
         addy = official.address[0]
         address = [addy.line1, addy.city, addy.state, addy.zip].join(' ')
-      end 
+      end
 
       rep = Representative.find_or_initialize_by(name: official.name)
-      rep.update({name: official.name, title: title_temp, address: address, party: official.party, photo: official.photo_url})
+      rep.update({ name:    official.name,
+                   title:   title_temp,
+                   address: address,
+                   party:   official.party,
+                   photo:   official.photo_url })
       reps.push(rep)
     end
     reps
