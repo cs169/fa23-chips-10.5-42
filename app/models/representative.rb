@@ -23,9 +23,10 @@ class Representative < ApplicationRecord
         addy = official.address[0]
         address = [addy.line1, addy.city, addy.state, addy.zip].join(' ')
       end
-
+      
       rep = Representative.find_or_initialize_by(name: official.name)
       rep.update({ name:    official.name,
+                   ocdid:   ocdid_temp,
                    title:   title_temp,
                    address: address,
                    party:   official.party,
