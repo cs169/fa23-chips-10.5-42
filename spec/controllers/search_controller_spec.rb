@@ -3,6 +3,5 @@
 require 'rails_helper'
 
 describe SearchController do
- describe "GET search" do
- end
+  it 'Retrieves the Correct Representatives'
 end
