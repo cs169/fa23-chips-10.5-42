@@ -9,9 +9,9 @@ class SearchController < ApplicationController
     service.key = Rails.application.credentials[:GOOGLE_API_KEY]
     result = service.representative_info_by_address(address: address)
     @representatives = Representative.civic_api_to_representative_params(result)
-    # Rails.logger.debug(@representatives)
     render 'representatives/search'
   end
+  
 
   def search_using_county
     fips_code = params[:std_fips_code]
