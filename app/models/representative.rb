@@ -2,6 +2,9 @@
 
 class Representative < ApplicationRecord
   has_many :news_items, dependent: :delete_all
+  validates :name, presence: true
+  validates :ocdid, presence: true
+  validates :title, presence: true
 
   def self.civic_api_to_representative_params(rep_info)
     reps = []
@@ -17,11 +20,20 @@ class Representative < ApplicationRecord
         end
       end
 
-      rep = Representative.create!({ name: official.name, ocdid: ocdid_temp,
-          title: title_temp })
+      address = ''
+      unless official.address.nil?
+        addy = official.address[0]
+        address = [addy.line1, addy.city, addy.state, addy.zip].join(' ')
+      end
+
+      rep = Representative.find_or_initialize_by(name: official.name)
+      rep.update({ name:    official.name,
+                   title:   title_temp,
+                   address: address,
+                   party:   official.party,
+                   photo:   official.photo_url })
       reps.push(rep)
     end
-
     reps
   end
 end

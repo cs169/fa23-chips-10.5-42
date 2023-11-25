@@ -1,0 +1,24 @@
+project:
+  name: 'CS169-fa23-42'
+  owner: 'fa23'
+  teamId: '42'
+  identities: {}
+  notifications:
+    email: 'fsalisi1@berkeley.edu'
+  members:
+    member1:
+      name: 'Franz'
+      surname: 'Salisi' 
+      githubUsername: 'franz105'
+    member2:
+      name: 'Jacob'
+      surname: 'Kirschner' 
+      githubUsername: 'JacobKirschner'
+    member3:
+      name: 'Rohan'
+      surname: 'Taneja' 
+      githubUsername: 'R-Taneja'
+    member4:
+      name: 'Christian'
+      surname: 'Bernard' 
+      githubUsername: 'icmula2'
