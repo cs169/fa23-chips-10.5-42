@@ -11,7 +11,7 @@ class SearchController < ApplicationController
     @representatives = Representative.civic_api_to_representative_params(result)
     render 'representatives/search'
   end
-
+  
 
   def search_using_county
     fips_code = params[:std_fips_code]
