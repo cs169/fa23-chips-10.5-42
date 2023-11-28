@@ -6,6 +6,7 @@ class MyNewsItemsController < SessionController
   before_action :set_news_item, only: %i[edit update destroy]
 
   def new
+    @issues_list = NewsItem.all_issues
     @news_item = NewsItem.new
   end
 
