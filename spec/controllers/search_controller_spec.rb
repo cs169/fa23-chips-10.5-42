@@ -17,16 +17,12 @@ describe SearchController do
       lat_max:      -114.131211,
       long_min:     32.534156,
       long_max:     -114.131211,
-      created_at:   '2023-11-24 23:53:20',
-      updated_at:   '2023-11-24 23:53:20'
     )
     county = state.counties.create!(
       name:       'Alameda County',
       state_id:   286,
       fips_code:  1,
       fips_class: 'H1',
-      created_at: '2023-11-24 23:53:24',
-      updated_at: '2023-11-24 23:53:24'
     )
   end
 
