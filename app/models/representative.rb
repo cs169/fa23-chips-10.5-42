@@ -8,8 +8,7 @@ class Representative < ApplicationRecord
     reps = []
 
     rep_info.officials.each_with_index do |official, index|
-      ocdid_temp = ''
-      title_temp = ''
+      ocdid_temp = title_temp = ''
 
       rep_info.offices.each do |office|
         if office.official_indices.include? index
@@ -23,14 +22,10 @@ class Representative < ApplicationRecord
         addy = official.address[0]
         address = [addy.line1, addy.city, addy.state, addy.zip].join(' ')
       end
-      
+
       rep = Representative.find_or_initialize_by(name: official.name)
-      rep.update({ name:    official.name,
-                   ocdid:   ocdid_temp,
-                   title:   title_temp,
-                   address: address,
-                   party:   official.party,
-                   photo:   official.photo_url })
+      rep.update(name: official.name, ocdid: ocdid_temp, title: title_temp,
+                 address: address, party: official.party, photo: official.photo_url)
       reps.push(rep) unless rep.id.nil?
     end
     reps
