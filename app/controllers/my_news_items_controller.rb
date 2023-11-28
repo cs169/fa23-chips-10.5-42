@@ -3,10 +3,10 @@
 class MyNewsItemsController < SessionController
   before_action :set_representative
   before_action :set_representatives_list
+  before_action :set_issues_list, only: %i[new edit]
   before_action :set_news_item, only: %i[edit update destroy]
 
   def new
-    @issues_list = NewsItem.all_issues
     @news_item = NewsItem.new
   end
 
@@ -39,6 +39,10 @@ class MyNewsItemsController < SessionController
 
   private
 
+  def set_issues_list
+    @issues_list = NewsItem.all_issues
+  end
+
   def set_representative
     @representative = Representative.find(
       params[:representative_id]
@@ -55,6 +59,6 @@ class MyNewsItemsController < SessionController
 
   # Only allow a list of trusted parameters through.
   def news_item_params
-    params.require(:news_item).permit(:news, :title, :description, :link, :representative_id)
+    params.require(:news_item).permit(:news, :title, :issue, :description, :link, :representative_id)
   end
 end
