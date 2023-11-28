@@ -3,7 +3,9 @@
 # See: https://github.com/codecov/example-ruby
 
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_filter 'lib'
+end
 
 if ENV['CI']
   require 'codecov'
@@ -61,9 +63,9 @@ RSpec.configure do |config|
 
   # FactoryBot Config.
   config.include FactoryBot::Syntax::Methods
-  config.before(:suite) do
-    FactoryBot.find_definitions
-  end
+  # config.before(:suite) do
+  #   FactoryBot.find_definitions
+  # end
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
