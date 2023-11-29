@@ -10,6 +10,11 @@ class NewsItemsController < ApplicationController
 
   def show; end
 
+  def top_articles
+    # Fetch top 5 articles from the News API
+    @top_articles = NewsService.search_top_articles(@representative.id, params[:issue])
+  end
+
   private
 
   def set_representative

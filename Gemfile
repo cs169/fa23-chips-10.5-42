@@ -99,7 +99,7 @@ group :development do
 end
 
 group :production do
-  # Use postgresql as the database for Active Record in production (Heroku)
+ql as the database for Active Record in production (Heroku)
   gem 'pg', '>= 0.18', '< 2.0'
 end
 

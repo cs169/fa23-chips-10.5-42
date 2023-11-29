@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     get '/my_events/:id' => 'my_events#edit', :as => :edit_my_event
     match '/my_events/:id', to: 'my_events#update', via: %i[put patch]
     match '/my_events/:id', to: 'my_events#destroy', via: [:delete]
-
+    
     # Routes for Representatives
     resources :representatives, only: [:index]
     resources :representatives do
@@ -40,4 +40,11 @@ Rails.application.routes.draw do
                                                                       via: [:delete]
     end
     get '/search/(:address)' => 'search#search', :as => 'search_representatives'
+
+    resources :news, only: [] do
+      collection do
+        get 'top_articles'
+      end
+    end
+
 end
