@@ -12,15 +12,14 @@ RSpec.describe NewsItemsController, type: :controller do
                                     party:   'party',
                                     photo:   'photo' })
       news_item = NewsItem.create({
-          title: 'title',
-          link: 'link',
-          description: 'description',
-          representative_id: rep.id,
-          created_at: DateTime.new(2001, 2, 1),
-          updated_at: DateTime.new(2002, 9, 1) })
-      @representative = rep
-      @news_item = news_item
-      get :index
+                                    title:             'title',
+                                    link:              'link',
+                                    description:       'description',
+                                    representative_id: rep.id,
+                                    created_at:        DateTime.new(2001, 2, 1),
+                                    updated_at:        DateTime.new(2002, 9, 1)
+                                  })
+      get :index, params: { representative_id: rep.id, id: news_item.id }
       expect(assigns(:news_items)).to eq([news_item])
     end
   end
