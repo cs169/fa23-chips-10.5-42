@@ -13,7 +13,7 @@ class MyNewsItemsController < SessionController
   def edit; end
 
   def blank_page
-    render plain: ""
+    render plain: ''
   end
 
   def create
