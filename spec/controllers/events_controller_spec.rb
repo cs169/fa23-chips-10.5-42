@@ -42,6 +42,7 @@ RSpec.describe EventsController, type: :controller do
       allow(@state).to receive(:counties).and_return([county])
       param = { 'filter-by': 'state-only', state: 'CA' }
       get :index, params: param
+      expect(response).to render_template('index')
     end
 
     it 'filters events' do
@@ -49,6 +50,7 @@ RSpec.describe EventsController, type: :controller do
       allow(County).to receive(:find_by).and_return(county)
       param = { 'filter-by': 'not-nil', state: 'CA' }
       get :index, params: param
+      expect(response).to render_template('index')
     end
   end
 
