@@ -12,15 +12,32 @@ describe MyNewsItemsController do
   let(:state) { create(:state) }
   let(:county) { create(:county) }
 
-  describe 'when new is requested' do
-    it 'assigns a new news item as @news_item' do
+  describe 'when GET new is requested' do
+    it 'assigns a new news item as @news_item and renders new' do
       get :new, params: { representative_id: representative.id }
       expect(assigns(:news_item)).to be_a_new(NewsItem)
+      attributes_for(:event)
+    end
+  end
+
+  describe 'when POST create' do
+    context 'with valid parameters' do
+      it 'creates a new NewsItem' do
+        expect do
+          post :create,
+               params: { news_item:         attributes_for(:news_item).merge(representative_id: representative.id),
+                         representative_id: representative.id }
+        end.to change(NewsItem, :count).by(1)
+      end
     end
 
-    it 'renders the new page' do
-      get :new, params: { representative_id: representative.id }
-      expect(response).to render_template(:new)
+    context 'with invalid parameters' do
+      it 'does not create a new NewsItem and renders new' do
+        expect do
+          post :create, params: { news_item: { title: nil }, representative_id: representative.id }
+        end.not_to change(NewsItem, :count)
+        expect(response).to render_template(:new)
+      end
     end
   end
 

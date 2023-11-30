@@ -17,42 +17,30 @@ describe MyEventsController do
   end
 
   describe 'when request new' do
-    it 'assigns a new event to @event' do
+    it 'assigns a new event to @event and renders' do
       get :new
       expect(assigns(:event)).to be_a_new(Event)
-    end
-
-    it 'renders the new template' do
-      get :new
       expect(response).to render_template(:new)
     end
   end
 
-  describe 'when create get called' do
+  describe 'when POST create get called' do
     let(:county) { create(:county) }
 
     context 'with valid parameters' do
-      it 'creates a new Event' do
+      it 'creates a new Event and redirect to events index' do
         expect do
           post :create, params: { event: attributes_for(:event).merge(county_id: county.id) }
         end.to change(Event, :count).by(1)
-      end
-
-      it 'redirects to the events index page' do
-        post :create, params: { event: attributes_for(:event).merge(county_id: county.id) }
         expect(response).to redirect_to(events_path)
       end
     end
 
     context 'with invalid parameters' do
-      it 'does not create and add a new Event' do
+      it 'does not create and add a new Event and renders new' do
         expect do
           post :create, params: { event: { start_time: Time.zone.now - 1 } }
         end.not_to change(Event, :count)
-      end
-
-      it 'rerenders the new view' do
-        post :create, params: { event: { start_time: Time.zone.now - 1 } }
         expect(response).to render_template(:new)
       end
     end
@@ -64,28 +52,19 @@ describe MyEventsController do
     end
 
     context 'with valid changes' do
-      it 'updates the event' do
+      it 'updates the event and redirects to event index' do
         put :update, params: { id: event.id, event: { name: 'New Event Name' } }
         event.reload
         expect(event.name).to eq('New Event Name')
       end
-
-      it 'redirects to events index page' do
-        put :update, params: { id: event.id, event: { name: 'New Event Name' } }
-        expect(response).to redirect_to(events_path)
-      end
     end
 
     context 'with invalid parameter' do
-      it 'does not make the change' do
+      it 'does not make the change and renders edit' do
         put :update, params: { id: event.id, event: { start_time: Time.zone.now - 1 } }
         start_time = event.start_time
         event.reload
         expect(event.start_time.to_i).to eq(start_time.to_i)
-      end
-
-      it 'rerenders edit view' do
-        put :update, params: { id: event.id, event: { start_time: Time.zone.now - 1 } }
         expect(response).to render_template(:edit)
       end
     end
