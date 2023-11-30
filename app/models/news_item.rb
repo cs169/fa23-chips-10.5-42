@@ -2,7 +2,11 @@
 
 class NewsItem < ApplicationRecord
   belongs_to :representative
-  has_many :ratings, dependent: :delete_all
+  # has_many :ratings, dependent: :delete_all
+  validates :title, presence: true
+  validates :link, presence: true
+  validates :representative_id, presence: true
+  validates :issue, inclusion: { in: ->(news_item) { NewsItem.all_issues }, allow_nil: true }
 
   def self.find_for(representative_id)
     NewsItem.find_by(
