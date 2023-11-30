@@ -16,26 +16,26 @@ describe MyEventsController do
     end
   end
 
-  describe  'when request new' do
+  describe 'when request new' do
     it 'assigns a new event to @event' do
       get :new
       expect(assigns(:event)).to be_a_new(Event)
     end
 
-    it 'renders the new template' do 
+    it 'renders the new template' do
       get :new
       expect(response).to render_template(:new)
     end
   end
 
-
   describe 'when create get called' do
     let(:county) { create(:county) }
+
     context 'with valid parameters' do
       it 'creates a new Event' do
-        expect {
+        expect do
           post :create, params: { event: attributes_for(:event).merge(county_id: county.id) }
-        }.to change(Event, :count).by(1)
+        end.to change(Event, :count).by(1)
       end
 
       it 'redirects to the events index page' do
@@ -46,10 +46,11 @@ describe MyEventsController do
 
     context 'with invalid parameters' do
       it 'does not create and add a new Event' do
-        expect {
+        expect do
           post :create, params: { event: { start_time: Time.zone.now - 1 } }
-        }.to_not change(Event, :count)
+        end.not_to change(Event, :count)
       end
+
       it 'rerenders the new view' do
         post :create, params: { event: { start_time: Time.zone.now - 1 } }
         expect(response).to render_template(:new)
@@ -61,6 +62,7 @@ describe MyEventsController do
     let(:event) do
       create(:event)
     end
+
     context 'with valid changes' do
       it 'updates the event' do
         put :update, params: { id: event.id, event: { name: 'New Event Name' } }
@@ -73,7 +75,7 @@ describe MyEventsController do
         expect(response).to redirect_to(events_path)
       end
     end
-    
+
     context 'with invalid parameter' do
       it 'does not make the change' do
         put :update, params: { id: event.id, event: { start_time: Time.zone.now - 1 } }
@@ -82,7 +84,7 @@ describe MyEventsController do
         expect(event.start_time.to_i).to eq(start_time.to_i)
       end
 
-      it 'rerenders edit view' do 
+      it 'rerenders edit view' do
         put :update, params: { id: event.id, event: { start_time: Time.zone.now - 1 } }
         expect(response).to render_template(:edit)
       end
@@ -90,12 +92,11 @@ describe MyEventsController do
   end
 
   describe 'when we try to DELETE an event' do
-      
     it 'destroys the right event' do
       event = create(:event)
-      expect {
+      expect do
         delete :destroy, params: { id: event.id }
-      }.to change(Event, :count).by(-1)
+      end.to change(Event, :count).by(-1)
     end
   end
 end

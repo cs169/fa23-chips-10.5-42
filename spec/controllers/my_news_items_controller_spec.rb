@@ -7,6 +7,7 @@ describe MyNewsItemsController do
     user = create(:user)
     log_in(user)
   end
+
   let(:representative) { create(:representative) }
   let(:state) { create(:state) }
   let(:county) { create(:county) }
@@ -17,7 +18,7 @@ describe MyNewsItemsController do
       expect(assigns(:news_item)).to be_a_new(NewsItem)
     end
 
-    it  'renders the new page' do
+    it 'renders the new page' do
       get :new, params: { representative_id: representative.id }
       expect(response).to render_template(:new)
     end
@@ -36,7 +37,9 @@ describe MyNewsItemsController do
 
     context 'with valid parameters' do
       it 'updates the requested news item' do
-        put :update, params: { id: news_item.id, news_item: { title: 'Updated Title' }, representative_id: news_item.representative_id }
+        put :update,
+            params: { id: news_item.id, news_item: { title: 'Updated Title' },
+representative_id: news_item.representative_id }
         news_item.reload
         expect(news_item.title).to eq('Updated Title')
       end
@@ -44,7 +47,8 @@ describe MyNewsItemsController do
 
     context 'with invalid parameters' do
       it 'does not update the news item and re-renders the edit template' do
-        put :update, params: { id: news_item.id, news_item: { title: nil }, representative_id: news_item.representative_id }
+        put :update,
+            params: { id: news_item.id, news_item: { title: nil }, representative_id: news_item.representative_id }
         expect(response).to render_template(:edit)
       end
     end
@@ -54,9 +58,9 @@ describe MyNewsItemsController do
     let!(:news_item) { create(:news_item) }
 
     it 'destroys the requested news item' do
-      expect {
+      expect do
         delete :destroy, params: { id: news_item.id, representative_id: news_item.representative_id }
-      }.to change(NewsItem, :count).by(-1)
+      end.to change(NewsItem, :count).by(-1)
     end
   end
 end
