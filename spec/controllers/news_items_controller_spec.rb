@@ -21,6 +21,7 @@ RSpec.describe NewsItemsController, type: :controller do
                                   })
       get :index, params: { representative_id: rep.id, id: news_item.id }
     end
+
     it 'renders index template' do
       expect(response).to render_template('index')
     end
