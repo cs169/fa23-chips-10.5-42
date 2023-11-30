@@ -29,7 +29,7 @@ describe User do
     end
   end
 
-  describe '.find_github_user' do
+  describe 'when .find_github_user is called' do
     it 'returns the correct with github provider and specific uid' do
       github_user = create(:user, provider: :github, uid: '2')
       user = described_class.find_github_user('2')
