@@ -25,12 +25,12 @@ RSpec.describe MapController, type: :controller do
                          })
     it 'renders the state template' do
       allow(State).to receive(:find_by).and_return(state)
-      get :state, params: {state_symbol: state.symbol}
+      get :state, params: { state_symbol: state.symbol }
       expect(response).to render_template('state')
     end
 
     it 'redirects to root path' do
-      get :state, params: {state_symbol: state.symbol}
+      get :state, params: { state_symbol: state.symbol }
       expect(response).to redirect_to(root_path)
     end
   end
@@ -58,12 +58,13 @@ RSpec.describe MapController, type: :controller do
     it 'renders the county template' do
       allow(State).to receive(:find_by).and_return(state)
       allow(County).to receive(:find_by).and_return(county)
-      get :county, params: {state_symbol: state.symbol}
+      get :county, params: { state_symbol: state.symbol, std_fips_code: 1 }
       expect(response).to render_template('county')
     end
 
     it 'redirects to root path' do
-      get :county, params: {state_symbol: state.symbol}
+      allow(State).to receive(:find_by).and_return(state)
+      get :county, params: { state_symbol: state.symbol, std_fips_code: 1 }
       expect(response).to redirect_to(root_path)
     end
   end

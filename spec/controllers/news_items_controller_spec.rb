@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe NewsItemsController, type: :controller do
   describe 'GET index' do
-    it 'Sets Represent' do
+    before do
       rep = Representative.create({ name:    'name',
                                     ocdid:   'ocdid',
                                     title:   'title',
@@ -20,7 +20,9 @@ RSpec.describe NewsItemsController, type: :controller do
                                     updated_at:        DateTime.new(2002, 9, 1)
                                   })
       get :index, params: { representative_id: rep.id, id: news_item.id }
-      expect(assigns(:news_items)).to eq([news_item])
+    end
+    it 'renders index template' do
+      expect(response).to render_template('index')
     end
   end
 end

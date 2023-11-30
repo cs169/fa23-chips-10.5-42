@@ -22,16 +22,6 @@ RSpec.describe EventsController, type: :controller do
                              fips_code:  1,
                              fips_class: 'H1'
                            })
-    event = Event.create!({
-                            name:        'name',
-                            description: 'description',
-                            county_id:   county.id,
-                            start_time:  Date.today + 1,
-                            end_time:    Date.today + 3,
-                            created_at:  DateTime.new(2001, 2, 1),
-                            updated_at:  DateTime.new(2002, 9, 1)
-                          })
-
     it 'renders index view' do
       get :index
       expect(response).to render_template('index')
@@ -77,8 +67,8 @@ RSpec.describe EventsController, type: :controller do
                             name:        'name',
                             description: 'description',
                             county_id:   county.id,
-                            start_time:  Date.today + 1,
-                            end_time:    Date.today + 3,
+                            start_time:  Time.zone.today + 1,
+                            end_time:    Time.zone.today + 3,
                             created_at:  DateTime.new(2001, 2, 1),
                             updated_at:  DateTime.new(2002, 9, 1)
                           })

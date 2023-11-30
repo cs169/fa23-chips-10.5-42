@@ -14,17 +14,9 @@ RSpec.describe LoginController, type: :controller do
       get :login
       expect(response).to redirect_to(user_profile_path)
     end
-
   end
 
   describe 'GET logout' do
-    it 'redirect to root path' do
-      get :logout
-      expect(response).to redirect_to(root_path)
-    end
-  end
-
-  describe 'GET google' do
     it 'redirect to root path' do
       get :logout
       expect(response).to redirect_to(root_path)
