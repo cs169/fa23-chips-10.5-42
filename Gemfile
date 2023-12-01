@@ -48,7 +48,7 @@ group :development, :test do
   gem 'axe-core-rspec'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
-  gem 'factory_bot'
+  gem 'factory_bot_rails'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'sqlite3'

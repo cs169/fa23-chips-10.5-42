@@ -3,15 +3,12 @@
 class Representative < ApplicationRecord
   has_many :news_items, dependent: :delete_all
   validates :name, presence: true
-  validates :ocdid, presence: true
-  validates :title, presence: true
 
   def self.civic_api_to_representative_params(rep_info)
     reps = []
 
     rep_info.officials.each_with_index do |official, index|
-      ocdid_temp = ''
-      title_temp = ''
+      ocdid_temp = title_temp = ''
 
       rep_info.offices.each do |office|
         if office.official_indices.include? index
@@ -27,12 +24,9 @@ class Representative < ApplicationRecord
       end
 
       rep = Representative.find_or_initialize_by(name: official.name)
-      rep.update({ name:    official.name,
-                   title:   title_temp,
-                   address: address,
-                   party:   official.party,
-                   photo:   official.photo_url })
-      reps.push(rep)
+      rep.update(name: official.name, ocdid: ocdid_temp, title: title_temp,
+                 address: address, party: official.party, photo: official.photo_url)
+      reps.push(rep) unless rep.id.nil?
     end
     reps
   end

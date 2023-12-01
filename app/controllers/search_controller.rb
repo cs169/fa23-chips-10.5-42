@@ -11,4 +11,20 @@ class SearchController < ApplicationController
     @representatives = Representative.civic_api_to_representative_params(result)
     render 'representatives/search'
   end
+
+  def search_using_county
+    fips_code = params[:std_fips_code]
+    state_symbol = params[:state_symbol].upcase
+
+    state = State.find_by(symbol: state_symbol)
+    county = state.counties.find_by(fips_code: fips_code) if state
+
+    if county
+      address = "#{county.name}, #{state_symbol}"
+      redirect_to search_representatives_path(address: address)
+    else
+      flash[:alert] = 'County or State not found'
+      redirect_to root_path
+    end
+  end
 end

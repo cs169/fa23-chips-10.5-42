@@ -12,7 +12,8 @@ Rails.application.routes.draw do
 
     root to: 'map#index', as: 'root'
     get '/state/:state_symbol' => 'map#state', :as => :state_map
-    get '/state/:state_symbol/county/:std_fips_code' => 'map#county', :as => :county
+    get '/state/:state_symbol/county/' => 'map#county', :as => :map_county
+
 
     get '/ajax/state/:state_symbol' => 'ajax#counties'
 
@@ -30,9 +31,13 @@ Rails.application.routes.draw do
         resources :news_items, only: %i[index show]
         get '/representatives/:representative_id/my_news_item/new' => 'my_news_items#new',
             :as                                                    => :new_my_news_item
-        match '/representatives/:representative_id/my_news_item/new', to:  'my_news_items#create',
+        match '/representatives/:representative_id/my_news_item/new', to:  'my_news_items#top_articles',
                                                                       via: [:post]
-        get '/representatives/:representative_id/my_news_item/:id' => 'my_news_items#edit',
+        get '/representatives/:representative_id/my_news_item/add' => 'my_news_items#top_articles',
+            :as                                                    => :add_my_top_news_item
+        match '/representatives/:representative_id/my_news_item/add', to:  'my_news_items#create',
+                                                                      via: [:post]                                                                      via: [:post]
+        get '/representatives/:representative_id/my_news_item/:id', => 'my_news_items#edit',
             :as                                                    => :edit_my_news_item
         match '/representatives/:representative_id/my_news_item/:id', to:  'my_news_items#update',
                                                                       via: %i[put patch]
@@ -41,10 +46,6 @@ Rails.application.routes.draw do
     end
     get '/search/(:address)' => 'search#search', :as => 'search_representatives'
 
-    resources :news, only: [] do
-      collection do
-        get 'top_articles'
-      end
-    end
+    get '/state/:state_symbol/county/:std_fips_code' => 'search#search_using_county', :as => :county
 
 end
