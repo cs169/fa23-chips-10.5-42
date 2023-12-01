@@ -34,7 +34,7 @@ class MapController < ApplicationController
   end
 
   def handle_county_not_found
-    state_symbol = params[:state_symbol].upcase
+    state_symbol = params[:state_symbol]
     std_fips_code = params[:std_fips_code]
     redirect_to root_path, alert: "County with code '#{std_fips_code}' not found for #{state_symbol}"
   end
