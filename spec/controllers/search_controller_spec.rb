@@ -8,22 +8,7 @@ describe SearchController do
   end
 
   before do
-    state = State.create!(
-      name:         'California',
-      symbol:       'CA',
-      fips_code:    6,
-      is_territory: 0,
-      lat_min:      -124.409591,
-      lat_max:      -114.131211,
-      long_min:     32.534156,
-      long_max:     -114.131211
-    )
-    state.counties.create!(
-      name:       'Alameda County',
-      state_id:   286,
-      fips_code:  1,
-      fips_class: 'H1'
-    )
+    create(:county)
   end
 
   describe 'valid search' do
