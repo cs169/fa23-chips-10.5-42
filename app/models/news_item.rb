@@ -2,7 +2,7 @@
 
 class NewsItem < ApplicationRecord
   belongs_to :representative
-  # has_many :ratings, dependent: :delete_all
+  has_many :ratings, dependent: :delete_all
   validates :title, presence: true
   validates :link, presence: true
   validates :representative_id, presence: true

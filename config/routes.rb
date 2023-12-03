@@ -25,6 +25,9 @@ Rails.application.routes.draw do
     match '/my_events/:id', to: 'my_events#update', via: %i[put patch]
     match '/my_events/:id', to: 'my_events#destroy', via: [:delete]
 
+    #Routes for RatingsController
+    resources :representatives, only: [:create]
+
     # Routes for Representatives
     resources :representatives, only: [:index]
     resources :representatives do
