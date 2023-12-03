@@ -8,9 +8,9 @@
                     %li= message
     .form-group.row
         .col-sm-2
-            = label :news_item, :representative_id, class: 'col-form-label'
+            = label :news_item, :representative_name, class: 'col-form-label'
         .col-sm-10
-            = select :news_item, :representative_id, representatives_list, { include_blank: true },
+            = select :news_item, :representative_name, representatives_list, { include_blank: true },
             class: 'form-control'
     .form-group.row
         .col-sm-2
