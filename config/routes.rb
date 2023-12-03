@@ -24,14 +24,18 @@ Rails.application.routes.draw do
     get '/my_events/:id' => 'my_events#edit', :as => :edit_my_event
     match '/my_events/:id', to: 'my_events#update', via: %i[put patch]
     match '/my_events/:id', to: 'my_events#destroy', via: [:delete]
-
+    
     # Routes for Representatives
     resources :representatives, only: [:index]
     resources :representatives do
         resources :news_items, only: %i[index show]
         get '/representatives/:representative_id/my_news_item/new' => 'my_news_items#new',
             :as                                                    => :new_my_news_item
-        match '/representatives/:representative_id/my_news_item/new', to:  'my_news_items#create',
+        match '/representatives/:representative_id/my_news_item/new', to:  'my_news_items#top_articles',
+                                                                      via: [:post]
+        get '/representatives/:representative_id/my_news_item/add' => 'my_news_items#top_articles',
+            :as                                                    => :add_my_top_news_item
+        match '/representatives/:representative_id/my_news_item/add', to:  'my_news_items#create',
                                                                       via: [:post]
         get '/representatives/:representative_id/my_news_item/:id' => 'my_news_items#edit',
             :as                                                    => :edit_my_news_item
@@ -41,5 +45,7 @@ Rails.application.routes.draw do
                                                                       via: [:delete]
     end
     get '/search/(:address)' => 'search#search', :as => 'search_representatives'
+
     get '/state/:state_symbol/county/:std_fips_code' => 'search#search_using_county', :as => :county
+
 end

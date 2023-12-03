@@ -37,6 +37,16 @@ class MyNewsItemsController < SessionController
                 notice: 'News was successfully destroyed.'
   end
 
+  def top_articles
+    # Fetch top 5 articles from the News API
+    #@top_articles = NewsService.search_top_articles(@representative.id, params[:issue])
+    #render add_my_top_news_item_path
+    @top_articles = []                
+  end
+
+  def get_top_articles
+    redirect_to add_my_top_news_item_path
+  end  
   private
 
   def set_issues_list
