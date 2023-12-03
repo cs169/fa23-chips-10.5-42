@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'news-api'
+
 class MyNewsItemsController < SessionController
   before_action :set_representative
   before_action :set_representatives_list
@@ -38,10 +40,23 @@ class MyNewsItemsController < SessionController
   end
 
   def top_articles
-    # Fetch top 5 articles from the News API
-    #@top_articles = NewsService.search_top_articles(@representative.id, params[:issue])
-    #render add_my_top_news_item_path
-    @top_articles = []                
+    representative_name = params[:representative_name]
+    issue = params[:issue]
+    query = "#{representative_name} #{issue}"
+    news_api = News.new("c7c66321690b41adb22f943fa51934fb")
+    top_headlines = news_api.get_top_headlines(
+      q: query,
+      language: 'en'
+    )
+    
+    @top_articles_list = top_headlines.map do |article|
+      {   
+        title: article.title,
+        description: article.description,
+        link: article.url
+        }
+    
+    end        
   end
 
   def get_top_articles
