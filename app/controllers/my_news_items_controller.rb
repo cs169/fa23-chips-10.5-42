@@ -22,6 +22,7 @@ class MyNewsItemsController < SessionController
     else
       render :new, error: 'An error occurred when creating the news item.'
     end
+    # redirect_to blank_page_path
   end
 
   def update
