@@ -15,6 +15,9 @@ class MyNewsItemsController < SessionController
   def create
     @news_item = NewsItem.new(news_item_params)
     if @news_item.save
+      if !params[:rating].nil?
+        Rating.add_rating({ rating: params[:rating], user_id: params[:user_id], rating: params[:rating] })
+      end
       redirect_to representative_news_item_path(@representative, @news_item),
                   notice: 'News item was successfully created.'
     else
