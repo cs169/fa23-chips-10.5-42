@@ -24,9 +24,6 @@ Rails.application.routes.draw do
     match '/my_events/:id', to: 'my_events#update', via: %i[put patch]
     match '/my_events/:id', to: 'my_events#destroy', via: [:delete]
 
-    # Temporary, should be replaced in task 2.3
-    get '/blank_page', to: 'my_news_items#blank_page', as: :blank_page
-
     # Routes for Representatives
     resources :representatives, only: [:index]
     resources :representatives do

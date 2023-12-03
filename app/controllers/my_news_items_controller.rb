@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MyNewsItemsController < SessionController
-  before_action :set_representative, except: [:blank_page]
+  before_action :set_representative
   before_action :set_representatives_list
   before_action :set_issues_list, only: %i[new edit]
   before_action :set_news_item, only: %i[edit update destroy]
@@ -12,19 +12,15 @@ class MyNewsItemsController < SessionController
 
   def edit; end
 
-  def blank_page
-    render plain: ''
-  end
-
   def create
-    # @news_item = NewsItem.new(news_item_params)
-    # if @news_item.save
-    #   redirect_to representative_news_item_path(@representative, @news_item),
-    #               notice: 'News item was successfully created.'
-    # else
-    #   render :new, error: 'An error occurred when creating the news item.'
-    # end
-    redirect_to blank_page_path
+    @news_item = NewsItem.new(news_item_params)
+    if @news_item.save
+      redirect_to representative_news_item_path(@representative, @news_item),
+                  notice: 'News item was successfully created.'
+    else
+      render :new, error: 'An error occurred when creating the news item.'
+    end
+    # redirect_to blank_page_path
   end
 
   def update
