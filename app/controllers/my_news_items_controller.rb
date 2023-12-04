@@ -17,7 +17,10 @@ class MyNewsItemsController < SessionController
   def create
     article = JSON.parse(params[:article])
     params[:news_item] = {title: article["title"], link: article["link"], issue: params[:issue], description: article["description"],representative_id: params[:representative_id]}
-    @news_item = NewsItem.new(news_item_params)
+    @news_item = NewsItem.find_by(link: article["link"])
+    if @news_item.nil?
+      @news_item = NewsItem.new(news_item_params)
+    end
     @representative = Representative.find(params[:representative_id])
     if @news_item.save!
       if !params[:rating].nil?
@@ -56,16 +59,13 @@ class MyNewsItemsController < SessionController
     
     news_api = News.new("c1ef19e62bd54cc9a6703339d81ed8dc")
     query = @representative_name + " " + @issue
-    puts query
-
+    
     top_headlines = news_api.get_everything(q: query,
     language: 'en',
     sortBy: 'relevancy')
     if top_headlines.length > 5 
       top_headlines = top_headlines.slice(0, 5)
     end
-
-    puts top_headlines
 
     @top_articles_list = top_headlines.map do |article|
       {
