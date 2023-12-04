@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_12_02_181724) do
+ActiveRecord::Schema.define(version: 2023_12_04_171755) do
 
   create_table "counties", force: :cascade do |t|
     t.string "name", null: false
@@ -46,10 +46,10 @@ ActiveRecord::Schema.define(version: 2023_12_02_181724) do
 
   create_table "ratings", force: :cascade do |t|
     t.float "rating"
-    t.integer "user_id_id", null: false
-    t.integer "news_item_id_id", null: false
-    t.index ["news_item_id_id"], name: "index_ratings_on_news_item_id_id"
-    t.index ["user_id_id"], name: "index_ratings_on_user_id_id"
+    t.integer "user_id", null: false
+    t.integer "news_item_id", null: false
+    t.index ["news_item_id"], name: "index_ratings_on_news_item_id"
+    t.index ["user_id"], name: "index_ratings_on_user_id"
   end
 
   create_table "representatives", force: :cascade do |t|

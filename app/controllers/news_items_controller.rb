@@ -3,19 +3,23 @@
 class NewsItemsController < ApplicationController
   before_action :set_representative
   before_action :set_news_item, only: %i[show]
-
+  
   def index
     @ratings = []
     @news_items = @representative.news_items
     @news_items.each do |item|
-      ratings = Rating.where(news_item_id_id: item.id)
+      ratings = Rating.where(news_item_id: item.id)
       sum = 0
       count = 0
       ratings.each do |r|
         sum += r.rating
         count += 1
       end
-      @ratings.push(sum/count)
+      if count == 0
+        @ratings.push(0)
+      else
+        @ratings.push(sum/count)
+      end
     end
   end
 
