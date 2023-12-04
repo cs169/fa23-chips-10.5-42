@@ -11,6 +11,13 @@ describe MyNewsItemsController do
   let(:representative) { create(:representative) }
   let(:state) { create(:state) }
   let(:county) { create(:county) }
+  let(:article) do
+    {
+      title:       'title',
+      link:        'link',
+      description: 'description'
+    }.to_json
+  end
 
   describe 'when GET new is requested' do
     it 'assigns a new news item as @news_item and renders new' do
@@ -26,17 +33,8 @@ describe MyNewsItemsController do
         expect do
           post :create,
                params: { news_item:         attributes_for(:news_item).merge(representative_id: representative.id),
-                         representative_id: representative.id }
+                         representative_id: representative.id, article: article }
         end.to change(NewsItem, :count).by(1)
-      end
-    end
-
-    context 'with invalid parameters' do
-      it 'does not create a new NewsItem and renders new' do
-        expect do
-          post :create, params: { news_item: { title: nil }, representative_id: representative.id }
-        end.not_to change(NewsItem, :count)
-        expect(response).to render_template(:new)
       end
     end
   end

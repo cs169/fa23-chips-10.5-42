@@ -15,14 +15,17 @@ class MyNewsItemsController < SessionController
   def edit; end
 
   def create
-    @news_item = NewsItem.new(news_item_params)
+    @news_item = make_news_item
+    @representative = Representative.find(params[:representative_id])
     if @news_item.save
+      unless params[:rating].nil?
+        Rating.add_rating({ rating: params[:rating], user_id: session[:current_user_id], news_item_id: @news_item.id })
+      end
       redirect_to representative_news_item_path(@representative, @news_item),
                   notice: 'News item was successfully created.'
     else
       render :new, error: 'An error occurred when creating the news item.'
     end
-    # redirect_to blank_page_path
   end
 
   def update
@@ -42,18 +45,18 @@ class MyNewsItemsController < SessionController
 
   def top_articles
     news_item = params[:news_item]
+    @news_item = params[:news_item]
     representative_id = news_item[:representative_id]
-    issue = news_item[:issue]
-    representative_name = Representative.find(representative_id).name
+    @issue = news_item[:issue]
+    @representative_name = Representative.find(representative_id).name
 
-    query = representative_name
-    news_api = News.new('c7c66321690b41adb22f943fa51934fb')
+    news_api = News.new(Rails.application.credentials[:NEWS_API_KEY])
+    query = "#{@representative_name} #{@issue}"
 
-    top_headlines = news_api.get_top_headlines(
-      q:        'bitcoin',
-      sources:  'bbc-news,the-verge',
-      language: 'en'
-    )
+    top_headlines = news_api.get_everything(q:        query,
+                                            language: 'en',
+                                            sortBy:   'relevancy')
+    top_headlines = top_headlines.slice(0, 5) if top_headlines.length > 5
 
     @top_articles_list = top_headlines.map do |article|
       {
@@ -62,10 +65,6 @@ class MyNewsItemsController < SessionController
         link:        article.url
       }
     end
-  end
-
-  def get_top_articles
-    redirect_to add_my_top_news_item_path
   end
 
   private
@@ -78,6 +77,16 @@ class MyNewsItemsController < SessionController
     @representative = Representative.find(
       params[:representative_id]
     )
+  end
+
+  def make_news_item
+    article = JSON.parse(params[:article])
+    params[:news_item] =
+      { title: article['title'], link: article['link'], issue: params[:issue], description: article['description'],
+representative_id: params[:representative_id] }
+    @news_item = NewsItem.find_by(link: article['link'])
+    @news_item = NewsItem.new(news_item_params) if @news_item.nil?
+    @news_item
   end
 
   def set_representatives_list
