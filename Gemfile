@@ -28,6 +28,8 @@ gem 'omniauth-rails_csrf_protection'
 # Use Haml instead of erb
 gem 'haml-rails'
 
+gem 'news-api'
+
 # Google Civic Client
 gem 'google-api-client', '~> 0.34'
 
