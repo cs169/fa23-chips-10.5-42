@@ -14,7 +14,7 @@
             <%= radio_button_tag 'article', article.to_json, false, class: "form-check-input" %>
             <div class="w-90 p-3" style="background-color: #eee;" style="text-align: left;">
               <p><strong>Title:</strong><%=article[:title]%></p>
-              <a href=<%=article[:description]%>>Link</a>
+              <a href=<%=article[:link]%>>Link</a>
               <p><strong>Description:</strong><%=article[:description]%></p>
             </div>
           </div>
