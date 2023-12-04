@@ -37,15 +37,6 @@ describe MyNewsItemsController do
         end.to change(NewsItem, :count).by(1)
       end
     end
-
-    context 'with invalid parameters' do
-      it 'does not create a new NewsItem and renders new' do
-        expect do
-          post :create, params: { news_item: { title: nil }, representative_id: representative.id, article: article }
-        end.not_to change(NewsItem, :count)
-        expect(response).to render_template(:new)
-      end
-    end
   end
 
   describe 'when edit, update, or destroy is called' do

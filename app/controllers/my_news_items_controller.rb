@@ -15,12 +15,7 @@ class MyNewsItemsController < SessionController
   def edit; end
 
   def create
-    article = JSON.parse(params[:article])
-    params[:news_item] =
-      { title: article['title'], link: article['link'], issue: params[:issue], description: article['description'],
-representative_id: params[:representative_id] }
-    @news_item = NewsItem.find_by(link: article['link'])
-    @news_item = NewsItem.new(news_item_params) if @news_item.nil?
+    @news_item = make_news_item
     @representative = Representative.find(params[:representative_id])
     if @news_item.save
       unless params[:rating].nil?
@@ -31,7 +26,6 @@ representative_id: params[:representative_id] }
     else
       render :new, error: 'An error occurred when creating the news item.'
     end
-    # redirect_to blank_page_path
   end
 
   def update
@@ -83,6 +77,16 @@ representative_id: params[:representative_id] }
     @representative = Representative.find(
       params[:representative_id]
     )
+  end
+
+  def make_news_item
+    article = JSON.parse(params[:article])
+    params[:news_item] =
+      { title: article['title'], link: article['link'], issue: params[:issue], description: article['description'],
+representative_id: params[:representative_id] }
+    @news_item = NewsItem.find_by(link: article['link'])
+    @news_item = NewsItem.new(news_item_params) if @news_item.nil?
+    @news_item
   end
 
   def set_representatives_list
