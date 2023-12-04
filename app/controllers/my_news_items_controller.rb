@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'news-api'
+
 class MyNewsItemsController < SessionController
   before_action :set_representative
   before_action :set_representatives_list
@@ -13,6 +15,8 @@ class MyNewsItemsController < SessionController
   def edit; end
 
   def create
+    puts "PARAMS"
+    puts params
     @news_item = NewsItem.new(news_item_params)
     if @news_item.save
       if !params[:rating].nil?
@@ -23,6 +27,7 @@ class MyNewsItemsController < SessionController
     else
       render :new, error: 'An error occurred when creating the news item.'
     end
+    # redirect_to blank_page_path
   end
 
   def update
@@ -41,15 +46,36 @@ class MyNewsItemsController < SessionController
   end
 
   def top_articles
-    # Fetch top 5 articles from the News API
-    #@top_articles = NewsService.search_top_articles(@representative.id, params[:issue])
-    #render add_my_top_news_item_path
-    @top_articles = []                
+    news_item = params[:news_item]
+    representative_id = news_item[:representative_id]
+    @issue = news_item[:issue]
+    @representative_name = Representative.find(representative_id).name
+
+    
+    news_api = News.new("c1ef19e62bd54cc9a6703339d81ed8dc")
+    query = @representative_name + " " + @issue
+    puts query
+
+    top_headlines = news_api.get_everything(q: query,
+    language: 'en',
+    sortBy: 'relevancy')
+    if top_headlines.length > 5 
+      top_headlines.slice(0, 5)
+    end
+
+    @top_articles_list = top_headlines.map do |article|
+      {
+        title:       article.title,
+        description: article.description,
+        link:        article.url
+      }
+    end
   end
 
   def get_top_articles
     redirect_to add_my_top_news_item_path
-  end  
+  end
+
   private
 
   def set_issues_list

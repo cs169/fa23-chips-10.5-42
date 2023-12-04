@@ -1,0 +1,24 @@
+<div>
+    <div class="justify-content-center text-center">
+        <h1>Edit News Item</h1>
+    <div>
+    <p><strong>Representative: </strong><%=@representative_name%></p>
+    <p><strong>Issue: </strong><%=@issue%></p>
+    <p>Select An Article:</p>
+    <%= form_tag(representative_add_my_top_news_item_path(@representative)) do |f| %>
+      <%= hidden_field_tag 'issue', @issue %>
+      <% @top_articles_list.each do |article| %>
+        <div>
+          <%= radio_button_tag 'article', article, false, class: "form-check-input" %>
+          <div>
+            <p><strong>Title:</strong><%=article[:title]%></p>
+            <a href=<%=article[:description]%>>Link</a>
+            <p><strong>Description:</strong><%=article[:description]%></p>
+          </div>
+        </div>
+      <% end %>
+      <label for="ratings">Movie Rating</label>
+      <%= select_tag(:rating, options_for_select([["1",1],["2",2],["3",3], ["4", 4], ["5", 5]]), class:"select") %>
+      <%= submit_tag("Save", class: "btn btn-large btn-primary") %>
+    <% end %>
+</div>
