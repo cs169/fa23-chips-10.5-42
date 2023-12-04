@@ -46,10 +46,10 @@ class MyNewsItemsController < SessionController
   def top_articles
     news_item = params[:news_item]
     @news_item = params[:news_item]
-    representative_id = news_item[:representative_id]
+    @representative_id = news_item[:representative_id]
     @issue = news_item[:issue]
-    @representative_name = Representative.find(representative_id).name
-
+    @representative = Representative.find(@representative_id)
+    @representative_name = @representative.name
     news_api = News.new(Rails.application.credentials[:NEWS_API_KEY])
     query = "#{@representative_name} #{@issue}"
 
