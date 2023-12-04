@@ -41,39 +41,33 @@ class MyNewsItemsController < SessionController
   end
 
   def top_articles
-    news_item= params[:news_item]
+    news_item = params[:news_item]
     representative_id = news_item[:representative_id]
     issue = news_item[:issue]
     representative_name = Representative.find(representative_id).name
 
-    puts representative_name 
-
-    puts "Here"
-    
     query = representative_name
-    news_api = News.new("c7c66321690b41adb22f943fa51934fb")
+    news_api = News.new('c7c66321690b41adb22f943fa51934fb')
 
     top_headlines = news_api.get_top_headlines(
-      q: 'bitcoin',
-      sources: 'bbc-news,the-verge',
+      q:        'bitcoin',
+      sources:  'bbc-news,the-verge',
       language: 'en'
-      )
-    
+    )
 
     @top_articles_list = top_headlines.map do |article|
-      puts article
-      {   
-        title: article.title,
+      {
+        title:       article.title,
         description: article.description,
-        link: article.url
-        }
-    
-    end        
+        link:        article.url
+      }
+    end
   end
 
   def get_top_articles
     redirect_to add_my_top_news_item_path
-  end  
+  end
+
   private
 
   def set_issues_list
