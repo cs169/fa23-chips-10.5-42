@@ -20,7 +20,7 @@
           </div>
         <% end %>
       <div>
-      <label for="ratings">Movie Rating</label>
+      <label for="ratings">Rating</label>
       <%= select_tag(:rating, options_for_select([["1",1],["2",2],["3",3], ["4", 4], ["5", 5]]), class:"select") %>
       <%= submit_tag("Save", class: "btn btn-large btn-primary") %>
     <% end %>
