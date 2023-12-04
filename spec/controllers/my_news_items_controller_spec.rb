@@ -11,9 +11,10 @@ describe MyNewsItemsController do
   let(:representative) { create(:representative) }
   let(:state) { create(:state) }
   let(:county) { create(:county) }
-  let(:article) do {
-      title: 'title',
-      link: 'link',
+  let(:article) do
+    {
+      title:       'title',
+      link:        'link',
       description: 'description'
     }.to_json
   end
@@ -32,7 +33,7 @@ describe MyNewsItemsController do
         expect do
           post :create,
                params: { news_item:         attributes_for(:news_item).merge(representative_id: representative.id),
-                         representative_id: representative.id, article: article}
+                         representative_id: representative.id, article: article }
         end.to change(NewsItem, :count).by(1)
       end
     end

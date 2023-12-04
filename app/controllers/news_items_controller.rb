@@ -3,7 +3,7 @@
 class NewsItemsController < ApplicationController
   before_action :set_representative
   before_action :set_news_item, only: %i[show]
-  
+
   def index
     @ratings = []
     @news_items = @representative.news_items
@@ -15,10 +15,10 @@ class NewsItemsController < ApplicationController
         sum += r.rating
         count += 1
       end
-      if count == 0
+      if count.zero?
         @ratings.push(0)
       else
-        @ratings.push(sum/count)
+        @ratings.push(sum / count)
       end
     end
   end
