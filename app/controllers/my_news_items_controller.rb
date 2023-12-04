@@ -57,7 +57,6 @@ class MyNewsItemsController < SessionController
                                             language: 'en',
                                             sortBy:   'relevancy')
     top_headlines = top_headlines.slice(0, 5) if top_headlines.length > 5
-
     @top_articles_list = top_headlines.map do |article|
       {
         title:       article.title,
