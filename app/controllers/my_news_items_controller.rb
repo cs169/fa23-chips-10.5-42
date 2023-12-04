@@ -15,12 +15,13 @@ class MyNewsItemsController < SessionController
   def edit; end
 
   def create
-    puts "PARAMS"
-    puts params
+    article = JSON.parse(params[:article])
+    params[:news_item] = {title: article["title"], link: article["link"], issue: params[:issue], description: article["description"],representative_id: params[:representative_id]}
     @news_item = NewsItem.new(news_item_params)
-    if @news_item.save
+    @representative = Representative.find(params[:representative_id])
+    if @news_item.save!
       if !params[:rating].nil?
-        Rating.add_rating({ rating: params[:rating], user_id: params[:user_id], rating: params[:rating] })
+        Rating.add_rating({ rating: params[:rating], user_id: session[:current_user_id], news_item_id: @news_item.id })
       end
       redirect_to representative_news_item_path(@representative, @news_item),
                   notice: 'News item was successfully created.'
@@ -47,6 +48,7 @@ class MyNewsItemsController < SessionController
 
   def top_articles
     news_item = params[:news_item]
+    @news_item = params[:news_item]
     representative_id = news_item[:representative_id]
     @issue = news_item[:issue]
     @representative_name = Representative.find(representative_id).name
@@ -60,8 +62,10 @@ class MyNewsItemsController < SessionController
     language: 'en',
     sortBy: 'relevancy')
     if top_headlines.length > 5 
-      top_headlines.slice(0, 5)
+      top_headlines = top_headlines.slice(0, 5)
     end
+
+    puts top_headlines
 
     @top_articles_list = top_headlines.map do |article|
       {

@@ -7,9 +7,10 @@
     <p>Select An Article:</p>
     <%= form_tag(representative_add_my_top_news_item_path(@representative)) do |f| %>
       <%= hidden_field_tag 'issue', @issue %>
+      <%= hidden_field_tag :news_item, @news_item %>
       <% @top_articles_list.each do |article| %>
         <div>
-          <%= radio_button_tag 'article', article, false, class: "form-check-input" %>
+          <%= radio_button_tag 'article', article.to_json, false, class: "form-check-input" %>
           <div>
             <p><strong>Title:</strong><%=article[:title]%></p>
             <a href=<%=article[:description]%>>Link</a>
